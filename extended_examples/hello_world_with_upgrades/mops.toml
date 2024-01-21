@@ -1,3 +1,4 @@
 [dependencies]
 base = "0.9.0"
 candb = "1.0.1"
+map7 = "https://github.com/ZhenyaUsenko/motoko-hash-map#v7.0.0"
