@@ -29,3 +29,13 @@ export async function putUser(helloServiceClient: ActorClient<IndexCanister, Hel
     (actor) => actor.putUser(sk, nickname)
   );
 }
+
+export async function deleteUser(helloServiceClient: ActorClient<IndexCanister, HelloService>, group: string, name: string) {
+  let pk = `group#${group}`;
+  let sk = name;
+  await helloServiceClient.update<HelloService["deleteUser"]>(
+    pk,
+    sk,
+    (actor) => actor.deleteUser(sk)
+  );
+}

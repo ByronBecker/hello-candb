@@ -63,6 +63,10 @@ shared ({ caller = owner }) actor class HelloService({
     })
   };
 
+  public func deleteUser(name: Text): async () {
+    CanDB.delete(db, { sk = name });
+  };
+
   type User = {
     name: Text;
     displayName: Text;

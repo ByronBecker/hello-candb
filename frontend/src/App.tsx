@@ -1,5 +1,5 @@
 import * as React from "react";
-import { greetUser, putUser } from "./api";
+import { deleteUser, greetUser, putUser } from "./api";
 import { initializeHelloServiceClient, intializeIndexClient } from "./client";
 
 const isLocal = true;
@@ -16,9 +16,11 @@ export default function App() {
   let [greetName, setGreetName] = React.useState("");
   let [name, setName] = React.useState("");
   let [displayName, setDisplayName] = React.useState("");
+  let [deleteName, setDeleteName] = React.useState("");
   let [greetingResponse, setGreetingResponse] = React.useState("");
   let [greetErrorText, setGreetErrorText] = React.useState("");
   let [createErrorText, setCreateErrorText] = React.useState("");
+  let [deleteErrorText, setDeleteErrorText] = React.useState("");
   let [group, setGroup] = React.useState(groupOptions.eightyr);
   let [successText, setSuccessText] = React.useState("");
 
@@ -47,6 +49,18 @@ export default function App() {
       // create the new user
       await putUser(helloServiceClient, group.value, name, displayName);
       setSuccessText(`${name} successfully inserted`)
+    }
+  }
+
+  async function deleteUserByName() {
+    if (deleteName === "") {
+      let errorText = "must enter a name to delete";
+      console.error(errorText);
+      setDeleteErrorText(errorText)
+    } else {
+      setDeleteErrorText("");
+      // delete the user
+      await deleteUser(helloServiceClient, group.value, deleteName);
     }
   }
 
@@ -109,6 +123,19 @@ export default function App() {
           <button type="button" onClick={createUser}>Create username</button>
           <div className="left-margin">{successText}</div>
           <div>{createErrorText}</div>
+        </div>
+      </div>
+
+      <div className="section-wrapper">
+        <h2>Delete a User from the {group.label} group</h2>
+        <div className="flex-wrapper">
+          <div className="prompt-text">Set username to delete:</div>
+          <input
+            value={deleteName}
+            onChange={ev => setDeleteName(ev.target.value)}
+          />
+          <button className="left-margin" type="button" onClick={deleteUserByName}>Delete username</button>
+          <div>{deleteErrorText}</div>
         </div>
       </div>
 
